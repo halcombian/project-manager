@@ -4,6 +4,7 @@ body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
+	font-family: sans-serif;
 }
 
 .btn {
@@ -18,12 +19,31 @@ body {
 	height: 5vh;
 	background-color: gray;
 }
-
-#project-con {
-	padding: 5%;
+#main-window {
 	flex: 1;
 	background-color: darkgray;
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 1em;
+	padding: 1em;
+	display: flex;
+	justify-content: center;
+	#project-con {
+		width: 100vh;
+		height: 75vh;
+		background-color: gray;
+		box-sizing: border-box;
+		.project-card {
+			width: 100%;
+			height: 7.5%;
+			background-color: lightgray;
+			border: 1px solid black;
+			box-sizing: border-box;
+			display: grid;
+			grid-template-columns: 50% 25% 25%;
+			align-items: center;
+			justify-content: center;
+			padding-left: 1em;
+			h2 {
+				margin: 0;
+			}
+		}
+	}
 }
