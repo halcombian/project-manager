@@ -2,8 +2,10 @@ const startBtn = document.getElementById("start-project");
 startBtn.addEventListener("click", () => {
 	startBtn.style.visibility = "hidden";
 	createProjectWindow();
+	addBtnListener();
 });
 
+//Gets project con to be used in createProjectWindow() and createProjectCards()
 const projectCon = document.getElementById("project-con");
 
 function createProjectWindow() {
@@ -34,17 +36,44 @@ function createProjectWindow() {
 	createForm.appendChild(addBtn);
 }
 
-/*function createProjectCard() {
-	const projectCard = document.createElement("div");
-	projectCard.className = "project-card";
-	projectCon.appendChild(projectCard);
+let myProjects = [];
 
-	const cardTitle = document.createElement("h2");
-	projectCard.appendChild(cardTitle);
+const projectFactory = (title, due, tasks) => {
+	return { title, due, tasks };
+};
 
-	const cardDue = document.createElement("span");
-	projectCard.appendChild(cardDue);
+function addBtnListener() {
+	const addBtn = document.getElementById("add-button");
+	const titleInput = document.getElementById("title-input");
+	const dueInput = document.getElementById("due-input");
+	addBtn.addEventListener("click", (event) => {
+		event.preventDefault();
+		startBtn.style.visibility = "visible";
 
-	const cardTasks = document.createElement("span");
-	projectCard.appendChild(cardTasks);
-}*/
+		const project = projectFactory(titleInput.value, dueInput.value, []);
+		myProjects.push(project);
+		createProjectCard();
+
+		document.getElementById("create-window").remove();
+	});
+}
+
+function createProjectCard() {
+	//TODO: remove projectCon children before loop to avoid repeats <--
+	for (let i = 0; i < myProjects.length; i++) {
+		const projectCard = document.createElement("div");
+		projectCard.className = "project-card";
+		projectCon.appendChild(projectCard);
+
+		const cardTitle = document.createElement("h2");
+		cardTitle.textContent = myProjects[i].title;
+		projectCard.appendChild(cardTitle);
+
+		const cardDue = document.createElement("span");
+		cardDue.textContent = myProjects[i].due;
+		projectCard.appendChild(cardDue);
+
+		const cardTasks = document.createElement("span");
+		projectCard.appendChild(cardTasks);
+	}
+}
