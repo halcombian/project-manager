@@ -43,6 +43,98 @@ function createProjectWindow() {
 	createForm.appendChild(addBtn);
 }
 
+let myProjects = [
+	/*
+	{
+		title: "Test Project 1",
+		due: "",
+		tasks: [
+			{ description: "Test 1 Task 1", notes: "" },
+			{ description: "Test 1 Task 2", notes: "" },
+			{ description: "Test 1 Task 3", notes: "" },
+		],
+	},
+	{
+		title: "Test Project 2",
+		due: "",
+		tasks: [
+			{ description: "Test 2 Task 1", notes: "" },
+			{ description: "Test 2 Task 2", notes: "" },
+			{ description: "Test 2 Task 3", notes: "" },
+		],
+	},
+	{
+		title: "Test Project 3",
+		due: "",
+		tasks: [
+			{ description: "Test 3 Task 1", notes: "" },
+			{ description: "Test 3 Task 2", notes: "" },
+			{ description: "Test 3 Task 3", notes: "" },
+		],
+	},*/
+];
+
+const projectFactory = (title, due, tasks) => {
+	return { title, due, tasks };
+};
+
+function addBtnListener() {
+	const addBtn = document.getElementById("add-button");
+	const titleInput = document.getElementById("title-input");
+	const dueInput = document.getElementById("due-input");
+	addBtn.addEventListener("click", (event) => {
+		event.preventDefault();
+		startProjectBtn.style.visibility = "visible";
+
+		const project = projectFactory(titleInput.value, dueInput.value, []);
+		myProjects.push(project);
+		createProjectCard();
+		openProjectListener();
+
+		document.getElementById("create-window").remove();
+	});
+}
+
+function createProjectCard() {
+	const oldProjectCard = document.querySelectorAll(".project-card");
+	oldProjectCard.forEach((card) => {
+		card.remove();
+	});
+
+	for (let i = 0; i < myProjects.length; i++) {
+		const projectCard = document.createElement("div");
+		projectCard.className = "project-card";
+		projectCon.insertBefore(projectCard, startProjectBtn);
+
+		const cardTitle = document.createElement("h2");
+		cardTitle.textContent = myProjects[i].title;
+		projectCard.appendChild(cardTitle);
+
+		const cardDue = document.createElement("span");
+		cardDue.textContent = myProjects[i].due;
+		projectCard.appendChild(cardDue);
+
+		const openProjectBtn = document.createElement("button");
+		openProjectBtn.className = "open-project-btn";
+		openProjectBtn.setAttribute("data-index", i);
+		openProjectBtn.textContent = "Open Project";
+		projectCard.appendChild(openProjectBtn);
+	}
+}
+
+function openProjectListener() {
+	const openProjectBtn = document.querySelectorAll(".open-project-btn");
+	for (let i = 0; i < openProjectBtn.length; i++) {
+		openProjectBtn[i].addEventListener("click", () => {
+			taskCon.classList.remove("display-none");
+			taskCon.setAttribute("data-index", openProjectBtn[i].dataset.index);
+			projectCon.className = "display-none";
+
+			createTaskCard();
+		});
+	}
+}
+
 function createTaskWindow() {
 	const createWindow = document.createElement("div");
 	createWindow.id = "create-window";
@@ -71,68 +163,6 @@ function createTaskWindow() {
 	createForm.appendChild(addTaskBtn);
 }
 
-let myProjects = [];
-
-const projectFactory = (title, due, tasks) => {
-	return { title, due, tasks };
-};
-
-function addBtnListener() {
-	const addBtn = document.getElementById("add-button");
-	const titleInput = document.getElementById("title-input");
-	const dueInput = document.getElementById("due-input");
-	addBtn.addEventListener("click", (event) => {
-		event.preventDefault();
-		startProjectBtn.style.visibility = "visible";
-
-		const project = projectFactory(titleInput.value, dueInput.value, []);
-		myProjects.push(project);
-		createProjectCard();
-		openProjectListener();
-
-		document.getElementById("create-window").remove();
-	});
-}
-
-function createProjectCard() {
-	//TODO: remove projectCon children before loop to avoid repeats <--
-	for (let i = 0; i < myProjects.length; i++) {
-		const projectCard = document.createElement("div");
-		projectCard.className = "project-card";
-		projectCon.insertBefore(projectCard, startProjectBtn);
-
-		const cardTitle = document.createElement("h2");
-		cardTitle.textContent = myProjects[i].title;
-		projectCard.appendChild(cardTitle);
-
-		const cardDue = document.createElement("span");
-		cardDue.textContent = myProjects[i].due;
-		projectCard.appendChild(cardDue);
-
-		/*const cardTasks = document.createElement("span");
-		projectCard.appendChild(cardTasks);*/
-
-		const openProjectBtn = document.createElement("button");
-		openProjectBtn.className = "open-project-btn";
-		openProjectBtn.textContent = "Open Project";
-		projectCard.appendChild(openProjectBtn);
-	}
-}
-
-function openProjectListener() {
-	const openProjectBtn = document.querySelectorAll(".open-project-btn");
-	for (let i = 0; i < openProjectBtn.length; i++) {
-		openProjectBtn[i].addEventListener("click", () => {
-			projectCon.className = "display-none";
-			taskCon.classList.remove("display-none");
-		});
-	}
-}
-//TODO: create a taskFactory and addEventListener to addTaskBtn that pushes the task object to myProjects[0].tasks
-//Then figure out a way to push the task to the correct Project's tasks array
-// ^ (likely data- attribute equal to myProjects[i] given to openProjectBtn)
-//Be kind and best of luck!
-
 const taskFactory = (description, notes) => {
 	return { description, notes };
 };
@@ -146,7 +176,7 @@ function addTaskBtnListener() {
 		startTaskBtn.style.visibility = "visible";
 
 		const task = taskFactory(descriptionInput.value, notesInput.value);
-		myProjects[0].tasks.push(task);
+		myProjects[taskCon.dataset.index].tasks.push(task);
 		createTaskCard();
 
 		document.getElementById("create-window").remove();
@@ -154,45 +184,27 @@ function addTaskBtnListener() {
 }
 
 function createTaskCard() {
-	//TODO: remove myProjects[i].tasks children before loop to avoid repeats <--
-	for (let i = 0; i < myProjects[0].tasks.length; i++) {
+	const oldTaskCard = document.querySelectorAll(".task-card");
+	oldTaskCard.forEach((card) => {
+		card.remove();
+	});
+
+	const taskData = taskCon.dataset.index;
+	for (let j = 0; j < myProjects[taskData].tasks.length; j++) {
 		const taskCard = document.createElement("div");
 		taskCard.className = "task-card";
 		taskCon.insertBefore(taskCard, startTaskBtn);
 
 		const cardDescription = document.createElement("h2");
-		cardDescription.textContent = myProjects[0].tasks[i].description;
+		cardDescription.textContent = myProjects[taskData].tasks[j].description;
 		taskCard.appendChild(cardDescription);
 
 		const cardNotes = document.createElement("span");
-		cardNotes.textContent = myProjects[0].tasks[i].notes;
+		cardNotes.textContent = myProjects[taskData].tasks[j].notes;
 		taskCard.appendChild(cardNotes);
 	}
 }
 
-/*myProjects[{
-	"title": "Project 1",
-	"due": "8/30",
-	"tasks": [{
-		"description": "",
-		"notes": ""
-	},
-	{
-		"description": "",
-		"notes": ""
-	}]
-},
-{
-	"title": "Project 2",
-	"due": "9/15",
-	"tasks": [{
-		"description": "",
-		"notes": ""
-	},
-	{
-		"description": "",
-		"notes": ""
-	}]
-}];
-
-myProjects[0].tasks[0].description;*/
+//Called for testing
+//createProjectCard();
+//openProjectListener();
