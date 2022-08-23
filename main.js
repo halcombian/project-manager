@@ -44,7 +44,6 @@ function createProjectWindow() {
 }
 
 let myProjects = [
-	/*
 	{
 		title: "Test Project 1",
 		due: "",
@@ -71,7 +70,7 @@ let myProjects = [
 			{ description: "Test 3 Task 2", notes: "" },
 			{ description: "Test 3 Task 3", notes: "" },
 		],
-	},*/
+	},
 ];
 
 const projectFactory = (title, due, tasks) => {
@@ -120,6 +119,7 @@ function createProjectCard() {
 		openProjectBtn.textContent = "Open Project";
 		projectCard.appendChild(openProjectBtn);
 	}
+	openProjectListener();
 }
 
 function openProjectListener() {
@@ -143,7 +143,7 @@ backBtn.addEventListener("click", () => {
 	projectCon.classList.remove("display-none");
 	taskCon.className = "display-none";
 
-	createTaskCard();
+	createProjectCard();
 });
 
 function createTaskWindow() {
@@ -213,9 +213,50 @@ function createTaskCard() {
 		const cardNotes = document.createElement("span");
 		cardNotes.textContent = myProjects[taskData].tasks[j].notes;
 		taskCard.appendChild(cardNotes);
+
+		const orderUpBtn = document.createElement("button");
+		orderUpBtn.textContent = "Up";
+		orderUpBtn.className = "order-up-btn";
+		orderUpBtn.setAttribute("data-index", j);
+		taskCard.appendChild(orderUpBtn);
+
+		const orderDownBtn = document.createElement("button");
+		orderDownBtn.textContent = "Down";
+		orderDownBtn.className = "order-down-btn";
+		orderDownBtn.setAttribute("data-index", j);
+		taskCard.appendChild(orderDownBtn);
 	}
+	orderBtnListener();
+}
+
+function orderBtnListener() {
+	const orderUpBtn = document.querySelectorAll(".order-up-btn");
+	const orderDownBtn = document.querySelectorAll(".order-down-btn");
+
+	const taskData = taskCon.dataset.index;
+	const project = myProjects[taskData];
+	orderUpBtn.forEach((btn) => {
+		const btnData = btn.dataset.index;
+		btn.addEventListener("click", () => {
+			const element = project.tasks.splice(btnData, 1)[0];
+			const index = btnData - 1;
+			project.tasks.splice(index, 0, element);
+
+			createTaskCard();
+		});
+	});
+
+	orderDownBtn.forEach((btn) => {
+		const btnData = btn.dataset.index;
+		btn.addEventListener("click", () => {
+			const element = project.tasks.splice(btnData, 1)[0];
+			const index = btnData + 1;
+			project.tasks.splice(index, 0, element);
+
+			createTaskCard();
+		});
+	});
 }
 
 //Called for testing
-//createProjectCard();
-//openProjectListener();
+createProjectCard();
