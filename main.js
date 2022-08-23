@@ -130,10 +130,21 @@ function openProjectListener() {
 			taskCon.setAttribute("data-index", openProjectBtn[i].dataset.index);
 			projectCon.className = "display-none";
 
+			document.getElementById("task-h2").innerHTML =
+				"<h2>" + myProjects[i].title + "</h2>";
+
 			createTaskCard();
 		});
 	}
 }
+
+const backBtn = document.getElementById("back-btn");
+backBtn.addEventListener("click", () => {
+	projectCon.classList.remove("display-none");
+	taskCon.className = "display-none";
+
+	createTaskCard();
+});
 
 function createTaskWindow() {
 	const createWindow = document.createElement("div");
