@@ -1,3 +1,7 @@
+@import "../styles.css/project-con.scss";
+@import "../styles.css/task-con.scss";
+@import "../styles.css/note-con.scss";
+
 html,
 body {
 	height: 100vh;
@@ -18,7 +22,7 @@ body {
 #title-bar {
 	display: flex;
 	align-items: center;
-	height: 5vh;
+	height: 3em;
 	background-color: gray;
 	padding-left: 1em;
 }
@@ -33,7 +37,7 @@ body {
 	form {
 		height: 100%;
 		display: grid;
-		grid-template-columns: 50% 25% 25%;
+		grid-template-columns: 3fr 1fr 1fr 1fr;
 		align-items: center;
 		justify-content: center;
 		input,
@@ -46,66 +50,16 @@ body {
 #main-page {
 	flex: 1;
 	background-color: darkgray;
-	padding: 1em;
+	padding-top: 1em;
 	display: flex;
 	justify-content: center;
 	#main-con {
 		width: 100vh;
-		height: 75vh;
+		min-width: 280px;
+		height: 100%;
+		border: 1px solid black;
+		border-bottom: none;
 		background-color: gray;
 		box-sizing: border-box;
-		#project-con {
-			height: 100%;
-			#project-title {
-				width: 100%;
-				height: 7.5%;
-				padding-left: 1em;
-				display: flex;
-				align-items: center;
-			}
-			.project-card {
-				width: 100%;
-				height: 7.5%;
-				background-color: lightgray;
-				border: 1px solid black;
-				box-sizing: border-box;
-				display: grid;
-				grid-template-columns: 50% 25% 25%;
-				align-items: center;
-				justify-content: center;
-				padding-left: 1em;
-				h2 {
-					margin: 0;
-				}
-			}
-		}
-		#task-con {
-			height: 100%;
-			#task-title {
-				width: 100%;
-				height: 7.5%;
-				padding-left: 1em;
-				display: flex;
-				align-items: center;
-				#task-h2 {
-					padding-left: 1rem;
-				}
-			}
-			.task-card {
-				width: 100%;
-				height: 7.5%;
-				background-color: lightgray;
-				border: 1px solid black;
-				box-sizing: border-box;
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				align-items: center;
-				justify-content: center;
-				padding-left: 1em;
-				h2 {
-					margin: 0;
-				}
-			}
-		}
 	}
 }

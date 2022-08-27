@@ -1,0 +1,42 @@
+#project-con {
+	height: 100%;
+	#project-title {
+		width: 100%;
+		height: 3em;
+		box-sizing: border-box;
+		border-bottom: 1px solid black;
+		padding-left: 4px;
+		display: flex;
+		align-items: center;
+		h2 {
+			margin: 0;
+		}
+		#project-title-tasks {
+			justify-self: center;
+		}
+	}
+	.project-card {
+		width: 100%;
+		height: max-content;
+		background-color: lightgray;
+		border-bottom: 1px solid black;
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: 6fr 1fr 0.5fr;
+		align-items: center;
+		justify-content: center;
+		padding: 2px;
+		.card-info-con {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+			align-items: center;
+			h2 {
+				margin: 0;
+			}
+			.due-task-con {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+	}
+}
