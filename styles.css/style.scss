@@ -22,10 +22,19 @@ body {
 	button {
 		font-family: "Roboto", sans-serif;
 		padding: 1em;
-		background-color: $white4;
-		border: none;
-		//border-radius: 90px;
+		background-color: $white1;
+		border-radius: 90px;
+		border: 1px solid $white3;
+		cursor: pointer;
 	}
+	button:hover {
+		background-color: #ebebeb;
+	}
+}
+
+#start-project {
+	border: 1px solid $white3;
+	border-radius: 90px;
 }
 
 .display-none {
@@ -62,6 +71,12 @@ body {
 			grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
 			align-items: center;
 			justify-content: center;
+			input {
+				background-color: $white1;
+				border: 1px solid $white3;
+				border-radius: 90px;
+				padding: 2%;
+			}
 			#due-input {
 				width: max-content;
 			}
@@ -75,7 +90,7 @@ body {
 
 #main-page {
 	flex: 1;
-	background-color: $white1;
+	background-color: $white4;
 	padding-top: 1em;
 	display: flex;
 	justify-content: center;

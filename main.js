@@ -9,6 +9,7 @@ startProjectBtn.addEventListener("click", () => {
 	startProjectBtn.style.visibility = "hidden";
 	createProjectWindow();
 	addBtnListener();
+	closeBtnListener();
 });
 
 const taskCon = document.getElementById("task-con");
@@ -17,6 +18,7 @@ startTaskBtn.addEventListener("click", () => {
 	startTaskBtn.style.visibility = "hidden";
 	createTaskWindow();
 	addTaskBtnListener();
+	closeTaskBtnListener();
 });
 
 function createProjectWindow() {
@@ -33,7 +35,6 @@ function createProjectWindow() {
 
 	const titleInput = document.createElement("input");
 	titleInput.type = "text";
-	titleInput.setAttribute("required", "");
 	titleInput.id = "title-input";
 	titleInput.placeholder = "Project Title";
 	inputCon.appendChild(titleInput);
@@ -48,6 +49,12 @@ function createProjectWindow() {
 	addBtn.className = "btn";
 	addBtn.textContent = "Add";
 	createForm.appendChild(addBtn);
+
+	const closeBtn = document.createElement("button");
+	closeBtn.id = "close-btn";
+	closeBtn.className = "btn";
+	closeBtn.textContent = "Close";
+	createForm.appendChild(closeBtn);
 }
 
 let myProjects = [
@@ -55,27 +62,27 @@ let myProjects = [
 		title: "Test Project 1",
 		due: "2022-08-30",
 		tasks: [
-			{ description: "Test 1 Task 1", notes: "Test Note 1" },
-			{ description: "Test 1 Task 2", notes: "Test Note 2" },
-			{ description: "Test 1 Task 3", notes: "Test Note 3" },
+			{ description: "Test 1 Task 1" },
+			{ description: "Test 1 Task 2" },
+			{ description: "Test 1 Task 3" },
 		],
 	},
 	{
 		title: "Test Project 2",
 		due: "2022-09-15",
 		tasks: [
-			{ description: "Test 2 Task 1", notes: "Test Note 1" },
-			{ description: "Test 2 Task 2", notes: "Test Note 2" },
-			{ description: "Test 2 Task 3", notes: "Test Note 3" },
+			{ description: "Test 2 Task 1" },
+			{ description: "Test 2 Task 2" },
+			{ description: "Test 2 Task 3" },
 		],
 	},
 	{
 		title: "Test Project 3",
 		due: "2022-09-30",
 		tasks: [
-			{ description: "Test 3 Task 1", notes: "Test Note 1" },
-			{ description: "Test 3 Task 2", notes: "Test Note 2" },
-			{ description: "Test 3 Task 3", notes: "Test Note 3" },
+			{ description: "Test 3 Task 1" },
+			{ description: "Test 3 Task 2" },
+			{ description: "Test 3 Task 3" },
 		],
 	},
 ];
@@ -98,6 +105,24 @@ function addBtnListener() {
 		openProjectListener();
 
 		document.getElementById("create-window").remove();
+	});
+}
+
+//This is also called in openProjectListener() so the project cards render properly if needed
+function closeProjectBtn() {
+	const createWindow = document.getElementById("create-window");
+	if (createWindow) {
+		createWindow.remove();
+		startProjectBtn.style.visibility = "visible";
+	}
+}
+
+function closeBtnListener() {
+	const closeBtn = document.getElementById("close-btn");
+	closeBtn.addEventListener("click", (event) => {
+		event.preventDefault();
+
+		closeProjectBtn();
 	});
 }
 
@@ -135,13 +160,13 @@ function createProjectCard() {
 
 		const openProjectBtn = document.createElement("button");
 		openProjectBtn.classList = "open-project-btn btn";
-		openProjectBtn.setAttribute("data-index", i);
+		openProjectBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their project's index in myProjects array
 		openProjectBtn.textContent = "Open Project";
 		projectCard.appendChild(openProjectBtn);
 
 		const deleteProjectBtn = document.createElement("button");
 		deleteProjectBtn.classList = "delete-project-btn btn";
-		deleteProjectBtn.setAttribute("data-index", i);
+		deleteProjectBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their project's index in myProjects array
 		deleteProjectBtn.textContent = "Delete";
 		projectCard.appendChild(deleteProjectBtn);
 	}
@@ -160,6 +185,7 @@ function openProjectListener() {
 
 			document.getElementById("task-h2").textContent = myProjects[index].title;
 
+			closeProjectBtn();
 			createTaskCard();
 		});
 	});
@@ -178,6 +204,8 @@ function deleteProjectListener() {
 
 const backBtn = document.getElementById("back-btn");
 backBtn.addEventListener("click", () => {
+	closeTaskBtn();
+
 	projectCon.classList.remove("display-none");
 	taskCon.className = "display-none";
 
@@ -194,7 +222,6 @@ function createTaskWindow() {
 
 	const descriptionInput = document.createElement("input");
 	descriptionInput.type = "text";
-	descriptionInput.setAttribute("required", "");
 	descriptionInput.id = "description-input";
 	descriptionInput.placeholder = "Task Description";
 	createForm.appendChild(descriptionInput);
@@ -204,6 +231,12 @@ function createTaskWindow() {
 	addTaskBtn.className = "btn";
 	addTaskBtn.textContent = "Add";
 	createForm.appendChild(addTaskBtn);
+
+	const closeBtn = document.createElement("button");
+	closeBtn.id = "close-task-btn";
+	closeBtn.className = "btn";
+	closeBtn.textContent = "Close";
+	createForm.appendChild(closeBtn);
 }
 
 const taskFactory = (description) => {
@@ -225,6 +258,24 @@ function addTaskBtnListener() {
 	});
 }
 
+//This is also called in backBtn's eventListner so the task cards are rendered properly if needed
+function closeTaskBtn() {
+	const createWindow = document.getElementById("create-window");
+	if (createWindow) {
+		createWindow.remove();
+		startTaskBtn.style.visibility = "visible";
+	}
+}
+
+function closeTaskBtnListener() {
+	const closeBtn = document.getElementById("close-task-btn");
+	closeBtn.addEventListener("click", (event) => {
+		event.preventDefault();
+
+		closeTaskBtn();
+	});
+}
+
 function createTaskCard() {
 	const oldTaskCard = document.querySelectorAll(".task-card");
 	oldTaskCard.forEach((card) => {
@@ -232,13 +283,13 @@ function createTaskCard() {
 	});
 
 	const taskData = taskCon.dataset.index;
-	for (let j = 0; j < myProjects[taskData].tasks.length; j++) {
+	for (let i = 0; i < myProjects[taskData].tasks.length; i++) {
 		const taskCard = document.createElement("div");
 		taskCard.className = "task-card";
 		taskCon.insertBefore(taskCard, startTaskBtn);
 
 		const cardDescription = document.createElement("h2");
-		cardDescription.textContent = myProjects[taskData].tasks[j].description;
+		cardDescription.textContent = myProjects[taskData].tasks[i].description;
 		taskCard.appendChild(cardDescription);
 
 		const orderBtnCon = document.createElement("div");
@@ -247,13 +298,13 @@ function createTaskCard() {
 		const orderUpBtn = document.createElement("button");
 		orderUpBtn.textContent = "Up";
 		orderUpBtn.classList = "order-up-btn btn";
-		orderUpBtn.setAttribute("data-index", j);
+		orderUpBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their task's index in their array
 		orderBtnCon.appendChild(orderUpBtn);
 
 		const orderDownBtn = document.createElement("button");
 		orderDownBtn.textContent = "Down";
 		orderDownBtn.classList = "order-down-btn btn";
-		orderDownBtn.setAttribute("data-index", j);
+		orderDownBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their task's index in their array
 		orderBtnCon.appendChild(orderDownBtn);
 
 		const deleteTaskBtn = document.createElement("button");
@@ -275,6 +326,7 @@ function orderBtnListener() {
 		const btnData = btn.dataset.index;
 		btn.addEventListener("click", () => {
 			if (btnData == 0) {
+				//The if statement prevents the up button from swapping places with the [1] element if in [0]
 			} else {
 				const element = project.tasks.splice(btnData, 1)[0];
 				const index = btnData - 1;
@@ -288,6 +340,7 @@ function orderBtnListener() {
 	orderDownBtn.forEach((btn) => {
 		const btnData = btn.dataset.index;
 		btn.addEventListener("click", () => {
+			//Note: The down button doesn't need the if statement to work properly even if in last place
 			const element = project.tasks.splice(btnData, 1)[0];
 			const index = btnData + 1;
 			project.tasks.splice(index, 0, element);

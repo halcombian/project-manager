@@ -54,4 +54,16 @@
 			width: 100%;
 		}
 	}
+	#create-window {
+		form {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+			align-items: center;
+			justify-content: center;
+			button {
+				width: max-content;
+				justify-self: flex-end;
+			}
+		}
+	}
 }

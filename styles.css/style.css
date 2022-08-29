@@ -113,6 +113,18 @@
   height: 100%;
   width: 100%;
 }
+#task-con #create-window form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  align-items: center;
+  justify-content: center;
+}
+#task-con #create-window form button {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  justify-self: flex-end;
+}
 
 body.dark-theme {
   color: white;
@@ -280,8 +292,19 @@ html button,
 body button {
   font-family: "Roboto", sans-serif;
   padding: 1em;
-  background-color: #d4d4d8;
-  border: none;
+  background-color: #e4e4e7;
+  border-radius: 90px;
+  border: 1px solid #fafafa;
+  cursor: pointer;
+}
+html button:hover,
+body button:hover {
+  background-color: #ebebeb;
+}
+
+#start-project {
+  border: 1px solid #fafafa;
+  border-radius: 90px;
 }
 
 .display-none {
@@ -323,6 +346,12 @@ body button {
   align-items: center;
   justify-content: center;
 }
+#create-window form #input-con input {
+  background-color: #e4e4e7;
+  border: 1px solid #fafafa;
+  border-radius: 90px;
+  padding: 2%;
+}
 #create-window form #input-con #due-input {
   width: -webkit-max-content;
   width: -moz-max-content;
@@ -337,7 +366,7 @@ body button {
 
 #main-page {
   flex: 1;
-  background-color: #e4e4e7;
+  background-color: #d4d4d8;
   padding-top: 1em;
   display: flex;
   justify-content: center;
