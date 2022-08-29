@@ -1,5 +1,9 @@
-const projectCon = document.getElementById("project-con");
+const themeBtn = document.getElementById("theme-btn");
+themeBtn.addEventListener("click", () => {
+	document.body.classList.toggle("dark-theme");
+});
 
+const projectCon = document.getElementById("project-con");
 const startProjectBtn = document.getElementById("start-project");
 startProjectBtn.addEventListener("click", () => {
 	startProjectBtn.style.visibility = "hidden";
@@ -23,17 +27,21 @@ function createProjectWindow() {
 	const createForm = document.createElement("form");
 	createWindow.appendChild(createForm);
 
+	const inputCon = document.createElement("div");
+	inputCon.id = "input-con";
+	createForm.appendChild(inputCon);
+
 	const titleInput = document.createElement("input");
 	titleInput.type = "text";
 	titleInput.setAttribute("required", "");
 	titleInput.id = "title-input";
 	titleInput.placeholder = "Project Title";
-	createForm.appendChild(titleInput);
+	inputCon.appendChild(titleInput);
 
 	const dueInput = document.createElement("input");
 	dueInput.type = "date";
 	dueInput.id = "due-input";
-	createForm.appendChild(dueInput);
+	inputCon.appendChild(dueInput);
 
 	const addBtn = document.createElement("button");
 	addBtn.id = "add-button";

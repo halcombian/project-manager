@@ -1,11 +1,15 @@
+@import "../styles.css/variables.scss";
+
 #project-con {
 	height: 100%;
+	background-color: $white2;
 	#project-title {
 		width: 100%;
 		height: 3em;
 		box-sizing: border-box;
-		border-bottom: 1px solid black;
-		padding-left: 4px;
+		background-color: $white3;
+		border-bottom: 1px solid $white1;
+		padding-left: 1%;
 		display: flex;
 		align-items: center;
 		h2 {
@@ -18,25 +22,36 @@
 	.project-card {
 		width: 100%;
 		height: max-content;
-		background-color: lightgray;
-		border-bottom: 1px solid black;
+		background-color: $white3;
+		border-bottom: 1px solid $white1;
 		box-sizing: border-box;
 		display: grid;
 		grid-template-columns: 6fr 1fr 0.5fr;
+		gap: 1px;
 		align-items: center;
 		justify-content: center;
 		padding: 2px;
+		padding-left: 3%;
 		.card-info-con {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 			align-items: center;
 			h2 {
-				margin: 0;
+				margin-top: 6px;
+				margin-bottom: 6px;
+				font-size: calc(12px + 0.75vh);
 			}
 			.due-task-con {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
+				font-size: calc(12px + 0.5vh);
 			}
+		}
+		.btn {
+			padding: 1em 0;
+			height: 100%;
+			width: 100%;
+			justify-self: flex-end;
 		}
 	}
 }
