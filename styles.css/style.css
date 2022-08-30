@@ -119,11 +119,14 @@
   align-items: center;
   justify-content: center;
 }
-#task-con #create-window form button {
+#task-con #create-window form div {
+  display: flex;
+  justify-content: flex-end;
+}
+#task-con #create-window form div button {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
-  justify-self: flex-end;
 }
 
 body.dark-theme {

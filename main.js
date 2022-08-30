@@ -226,17 +226,20 @@ function createTaskWindow() {
 	descriptionInput.placeholder = "Task Description";
 	createForm.appendChild(descriptionInput);
 
+	const createBtnCon = document.createElement("div");
+	createForm.appendChild(createBtnCon);
+
 	const addTaskBtn = document.createElement("button");
 	addTaskBtn.id = "add-task-btn";
 	addTaskBtn.className = "btn";
 	addTaskBtn.textContent = "Add";
-	createForm.appendChild(addTaskBtn);
+	createBtnCon.appendChild(addTaskBtn);
 
 	const closeBtn = document.createElement("button");
 	closeBtn.id = "close-task-btn";
 	closeBtn.className = "btn";
 	closeBtn.textContent = "Close";
-	createForm.appendChild(closeBtn);
+	createBtnCon.appendChild(closeBtn);
 }
 
 const taskFactory = (description) => {
@@ -298,13 +301,13 @@ function createTaskCard() {
 		const orderUpBtn = document.createElement("button");
 		orderUpBtn.textContent = "Up";
 		orderUpBtn.classList = "order-up-btn btn";
-		orderUpBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their task's index in their array
+		orderUpBtn.setAttribute("data-index", i); //Indexes are given to order buttons that match their task's index in it's array
 		orderBtnCon.appendChild(orderUpBtn);
 
 		const orderDownBtn = document.createElement("button");
 		orderDownBtn.textContent = "Down";
 		orderDownBtn.classList = "order-down-btn btn";
-		orderDownBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their task's index in their array
+		orderDownBtn.setAttribute("data-index", i); //Indexes are given to order buttons that match their task's index in it's array
 		orderBtnCon.appendChild(orderDownBtn);
 
 		const deleteTaskBtn = document.createElement("button");
@@ -325,8 +328,8 @@ function orderBtnListener() {
 	orderUpBtn.forEach((btn) => {
 		const btnData = btn.dataset.index;
 		btn.addEventListener("click", () => {
+			//The if statement prevents the up button from swapping places with the [1] element if in [0]
 			if (btnData == 0) {
-				//The if statement prevents the up button from swapping places with the [1] element if in [0]
 			} else {
 				const element = project.tasks.splice(btnData, 1)[0];
 				const index = btnData - 1;
@@ -337,17 +340,17 @@ function orderBtnListener() {
 		});
 	});
 
-	orderDownBtn.forEach((btn) => {
-		const btnData = btn.dataset.index;
-		btn.addEventListener("click", () => {
-			//Note: The down button doesn't need the if statement to work properly even if in last place
-			const element = project.tasks.splice(btnData, 1)[0];
-			const index = btnData + 1;
+	//This for loop worked while a copy of the previous forEach() with + instead of - did not
+	//It required the use of i instead of btnData to work as well
+	for (let i = 0; i < orderDownBtn.length; i++) {
+		orderDownBtn[i].addEventListener("click", () => {
+			const element = project.tasks.splice(i, 1)[0];
+			const index = i + 1;
 			project.tasks.splice(index, 0, element);
 
 			createTaskCard();
 		});
-	});
+	}
 }
 
 function deleteTaskListener() {
