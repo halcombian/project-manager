@@ -51,7 +51,7 @@
   font-size: calc(12px + 0.5vh);
 }
 #project-con .project-card .btn {
-  padding: 1em 0;
+  padding: 0.7rem;
   height: 100%;
   width: 100%;
   justify-self: flex-end;
@@ -77,6 +77,7 @@
 }
 #task-con #task-title #back-btn {
   margin: 0;
+  padding: 0.6rem;
 }
 #task-con .task-card {
   width: 100%;
@@ -95,8 +96,9 @@
   padding-left: 3%;
 }
 #task-con .task-card h2 {
-  margin: 0;
-  font-size: calc(12px + 1vh);
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: calc(12px + 0.75vh);
 }
 #task-con .task-card div {
   height: 100%;
@@ -109,7 +111,7 @@
   padding: 0;
 }
 #task-con .task-card .btn {
-  padding: 1em 0;
+  padding: 0.7rem;
   height: 100%;
   width: 100%;
 }
@@ -281,24 +283,28 @@ body {
   display: flex;
   flex-direction: column;
   font-family: "Roboto", sans-serif;
+  color: #525252;
 }
 html h1,
 body h1 {
   font-size: 3vh;
   margin: 0;
+  color: #27272a;
 }
 html h2,
 body h2 {
   font-size: 2.75vh;
+  color: #27272a;
 }
 html button,
 body button {
   font-family: "Roboto", sans-serif;
-  padding: 1em;
+  padding: 1rem;
   background-color: #e4e4e7;
   border-radius: 90px;
   border: 1px solid #fafafa;
   cursor: pointer;
+  color: #27272a;
 }
 html button:hover,
 body button:hover {
@@ -317,11 +323,15 @@ body button:hover {
 #title-bar {
   display: flex;
   align-items: center;
-  height: 3em;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
   background-color: #fafafa;
+  padding: 2px;
   padding-left: 1%;
 }
 #title-bar button {
+  padding: 0.7rem;
   margin-left: auto;
 }
 

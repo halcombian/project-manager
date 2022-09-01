@@ -1,6 +1,7 @@
 const themeBtn = document.getElementById("theme-btn");
 themeBtn.addEventListener("click", () => {
 	document.body.classList.toggle("dark-theme");
+	themeBtn.textContent = "light_mode";
 });
 
 const projectCon = document.getElementById("project-con");
@@ -165,9 +166,9 @@ function createProjectCard() {
 		projectCard.appendChild(openProjectBtn);
 
 		const deleteProjectBtn = document.createElement("button");
-		deleteProjectBtn.classList = "delete-project-btn btn";
+		deleteProjectBtn.classList = "material-icons delete-project-btn btn";
 		deleteProjectBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their project's index in myProjects array
-		deleteProjectBtn.textContent = "Delete";
+		deleteProjectBtn.textContent = "close";
 		projectCard.appendChild(deleteProjectBtn);
 	}
 	openProjectListener();
@@ -299,20 +300,20 @@ function createTaskCard() {
 		taskCard.appendChild(orderBtnCon);
 
 		const orderUpBtn = document.createElement("button");
-		orderUpBtn.textContent = "Up";
-		orderUpBtn.classList = "order-up-btn btn";
+		orderUpBtn.textContent = "expand_less";
+		orderUpBtn.classList = "material-icons order-up-btn btn";
 		orderUpBtn.setAttribute("data-index", i); //Indexes are given to order buttons that match their task's index in it's array
 		orderBtnCon.appendChild(orderUpBtn);
 
 		const orderDownBtn = document.createElement("button");
-		orderDownBtn.textContent = "Down";
-		orderDownBtn.classList = "order-down-btn btn";
+		orderDownBtn.textContent = "expand_more";
+		orderDownBtn.classList = "material-icons order-down-btn btn";
 		orderDownBtn.setAttribute("data-index", i); //Indexes are given to order buttons that match their task's index in it's array
 		orderBtnCon.appendChild(orderDownBtn);
 
 		const deleteTaskBtn = document.createElement("button");
-		deleteTaskBtn.classList = "delete-task-btn btn";
-		deleteTaskBtn.textContent = "Delete";
+		deleteTaskBtn.classList = "material-icons delete-task-btn btn";
+		deleteTaskBtn.textContent = "close";
 		taskCard.appendChild(deleteTaskBtn);
 	}
 	orderBtnListener();

@@ -12,20 +12,24 @@ body {
 	display: flex;
 	flex-direction: column;
 	font-family: "Roboto", sans-serif;
+	color: $black4;
 	h1 {
 		font-size: 3vh;
 		margin: 0;
+		color: $black2;
 	}
 	h2 {
 		font-size: 2.75vh;
+		color: $black2;
 	}
 	button {
 		font-family: "Roboto", sans-serif;
-		padding: 1em;
+		padding: 1rem;
 		background-color: $white1;
 		border-radius: 90px;
 		border: 1px solid $white3;
 		cursor: pointer;
+		color: $black2;
 	}
 	button:hover {
 		background-color: #ebebeb;
@@ -44,10 +48,12 @@ body {
 #title-bar {
 	display: flex;
 	align-items: center;
-	height: 3em;
+	height: max-content;
 	background-color: $white3;
+	padding: 2px;
 	padding-left: 1%;
 	button {
+		padding: 0.7rem;
 		margin-left: auto;
 	}
 }
