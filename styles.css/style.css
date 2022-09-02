@@ -34,6 +34,7 @@
   justify-content: center;
   padding: 2px;
   padding-left: 3%;
+  overflow-wrap: break-word;
 }
 #project-con .project-card .card-info-con {
   display: grid;
@@ -63,13 +64,16 @@
 }
 #task-con #task-title {
   width: 100%;
-  height: 3em;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
   box-sizing: border-box;
   background-color: #fafafa;
   border-bottom: 1px solid #e4e4e7;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  overflow-wrap: anywhere;
 }
 #task-con #task-title #task-h2 {
   padding-left: 1%;
@@ -94,11 +98,13 @@
   justify-content: center;
   padding: 2px;
   padding-left: 3%;
+  overflow-wrap: break-word;
 }
 #task-con .task-card h2 {
   margin-top: 6px;
   margin-bottom: 6px;
   font-size: calc(12px + 0.75vh);
+  overflow-wrap: anywhere;
 }
 #task-con .task-card div {
   height: 100%;
@@ -323,14 +329,19 @@ body button:hover {
 #title-bar {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
   background-color: #fafafa;
-  padding: 2px;
-  padding-left: 1%;
 }
-#title-bar button {
+#title-bar #title-bar-con {
+  display: flex;
+  align-items: center;
+  width: 100vh;
+  min-width: 280px;
+}
+#title-bar #title-bar-con button {
   padding: 0.7rem;
   margin-left: auto;
 }

@@ -1,7 +1,12 @@
 const themeBtn = document.getElementById("theme-btn");
 themeBtn.addEventListener("click", () => {
 	document.body.classList.toggle("dark-theme");
-	themeBtn.textContent = "light_mode";
+
+	if (document.body.classList.contains("dark-theme")) {
+		themeBtn.textContent = "light_mode";
+	} else {
+		themeBtn.textContent = "dark_mode";
+	}
 });
 
 const projectCon = document.getElementById("project-con");

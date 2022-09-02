@@ -48,13 +48,18 @@ body {
 #title-bar {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	height: max-content;
 	background-color: $white3;
-	padding: 2px;
-	padding-left: 1%;
-	button {
-		padding: 0.7rem;
-		margin-left: auto;
+	#title-bar-con {
+		display: flex;
+		align-items: center;
+		width: 100vh;
+		min-width: 280px;
+		button {
+			padding: 0.7rem;
+			margin-left: auto;
+		}
 	}
 }
 

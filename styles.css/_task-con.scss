@@ -5,13 +5,14 @@
 	background-color: $white2;
 	#task-title {
 		width: 100%;
-		height: 3em;
+		height: max-content;
 		box-sizing: border-box;
 		background-color: $white3;
 		border-bottom: 1px solid $white1;
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
+		overflow-wrap: anywhere;
 		#task-h2 {
 			padding-left: 1%;
 			margin: 0;
@@ -34,10 +35,12 @@
 		justify-content: center;
 		padding: 2px;
 		padding-left: 3%;
+		overflow-wrap: break-word;
 		h2 {
 			margin-top: 6px;
 			margin-bottom: 6px;
 			font-size: calc(12px + 0.75vh);
+			overflow-wrap: anywhere;
 		}
 		div {
 			height: 100%;

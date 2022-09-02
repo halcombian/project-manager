@@ -32,6 +32,7 @@
 		justify-content: center;
 		padding: 2px;
 		padding-left: 3%;
+		overflow-wrap: break-word;
 		.card-info-con {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
