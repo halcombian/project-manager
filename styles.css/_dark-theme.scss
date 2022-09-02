@@ -1,141 +1,67 @@
 @import "../styles.css/variables.scss";
 
+.display-none {
+	display: none;
+}
+
 body.dark-theme {
-	color: white;
+	text-shadow: none;
+	color: $white4;
+	h1 {
+		color: $white2;
+	}
+	h2 {
+		color: $white2;
+	}
+	button {
+		background-color: $black1;
+		border: 1px solid $black3;
+		color: $white2;
+	}
+	button:hover {
+		background-color: #2f2f33;
+	}
 	#title-bar {
-		display: flex;
-		align-items: center;
-		height: 3em;
 		background-color: $black3;
-		padding-left: 1em;
 	}
 	#main-page {
-		flex: 1;
-		background-color: $black1;
-		padding-top: 1em;
-		display: flex;
-		justify-content: center;
+		background-color: $black4;
 		#main-con {
-			width: 100vh;
-			min-width: 280px;
-			height: 100%;
 			border: 1px solid $black1;
-			border-bottom: none;
-			background-color: gray;
-			box-sizing: border-box;
-			#create-window {
-				width: 100%;
-				height: 7.5%;
-				background-color: $black3;
-				border: 1px solid $black1;
-				box-sizing: border-box;
-				padding-left: 1em;
-				form {
-					height: 100%;
-					display: grid;
-					grid-template-columns: 3fr 1fr 1fr 1fr;
-					align-items: center;
-					justify-content: center;
-					input,
-					button {
-						width: fit-content;
-					}
-				}
-			}
 			#project-con {
-				height: 100%;
 				background-color: $black2;
 				#project-title {
-					width: 100%;
-					height: 3em;
-					box-sizing: border-box;
 					background-color: $black3;
 					border-bottom: 1px solid $black1;
-					padding-left: 4px;
-					display: flex;
-					align-items: center;
-					h2 {
-						margin: 0;
-					}
-					#project-title-tasks {
-						justify-self: center;
-					}
+				}
+				#start-project {
+					border: 1px solid $black3;
 				}
 				.project-card {
-					width: 100%;
-					height: max-content;
 					background-color: $black3;
 					border-bottom: 1px solid $black1;
-					box-sizing: border-box;
-					display: grid;
-					grid-template-columns: 6fr 1fr 0.5fr;
-					align-items: center;
-					justify-content: center;
-					padding: 2px;
-					.card-info-con {
-						display: grid;
-						grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-						align-items: center;
-						h2 {
-							margin: 0;
-						}
-						.due-task-con {
-							display: grid;
-							grid-template-columns: 1fr 1fr;
-						}
-					}
-					.btn {
-						padding: 1em 0;
-						height: 100%;
-					}
 				}
 			}
 			#task-con {
-				height: 100%;
 				background-color: $black2;
 				#task-title {
-					width: 100%;
-					height: 3em;
-					box-sizing: border-box;
 					background-color: $black3;
 					border-bottom: 1px solid $black1;
-					display: flex;
-					align-items: center;
-					#task-h2 {
-						padding-left: 1rem;
-						margin: 0;
-					}
 				}
 				.task-card {
-					width: 100%;
-					height: max-content;
 					background-color: $black3;
 					border-bottom: 1px solid $black1;
-					box-sizing: border-box;
-					display: grid;
-					grid-template-columns: 6fr 1fr 0.5fr;
-					align-items: center;
-					justify-content: center;
-					padding: 2px;
-					h2 {
-						margin: 0;
-					}
-					div {
-						height: 100%;
-						display: flex;
-						flex-direction: column;
-						.btn {
-							height: 100%;
-							padding: 0;
-						}
-					}
-
-					.btn {
-						padding: 1em 0;
-						height: 100%;
-					}
 				}
 			}
 		}
+	}
+}
+
+#create-window {
+	background-color: $black3;
+	border: 1px solid $black1;
+	input {
+		background-color: $black1;
+		border: 1px solid $black3;
 	}
 }

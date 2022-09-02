@@ -5,6 +5,10 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+.display-none {
+	display: none;
+}
+
 html,
 body {
 	height: 100vh;
@@ -36,15 +40,6 @@ body {
 	}
 }
 
-#start-project {
-	border: 1px solid $white3;
-	border-radius: 90px;
-}
-
-.display-none {
-	display: none;
-}
-
 #title-bar {
 	display: flex;
 	align-items: center;
@@ -60,6 +55,22 @@ body {
 			padding: 0.7rem;
 			margin-left: auto;
 		}
+	}
+}
+
+#main-page {
+	flex: 1;
+	background-color: $white4;
+	padding-top: 1em;
+	display: flex;
+	justify-content: center;
+	#main-con {
+		width: 100vh;
+		min-width: 280px;
+		height: 100%;
+		border: 1px solid $white1;
+		border-bottom: none;
+		box-sizing: border-box;
 	}
 }
 
@@ -96,22 +107,5 @@ body {
 				margin-left: auto;
 			}
 		}
-	}
-}
-
-#main-page {
-	flex: 1;
-	background-color: $white4;
-	padding-top: 1em;
-	display: flex;
-	justify-content: center;
-	#main-con {
-		width: 100vh;
-		min-width: 280px;
-		height: 100%;
-		border: 1px solid $white1;
-		border-bottom: none;
-		background-color: gray;
-		box-sizing: border-box;
 	}
 }
