@@ -28,6 +28,16 @@ body.dark-theme {
 		background-color: $black4;
 		#main-con {
 			border: 1px solid $black1;
+			#create-window {
+				background-color: $black3;
+				border: none;
+				border-bottom: 1px solid $black1;
+				input {
+					background-color: $black1;
+					border: 1px solid $black3;
+					color: $white4;
+				}
+			}
 			#project-con {
 				background-color: $black2;
 				#project-title {
@@ -54,14 +64,5 @@ body.dark-theme {
 				}
 			}
 		}
-	}
-}
-
-#create-window {
-	background-color: $black3;
-	border: 1px solid $black1;
-	input {
-		background-color: $black1;
-		border: 1px solid $black3;
 	}
 }

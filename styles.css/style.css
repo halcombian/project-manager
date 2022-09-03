@@ -172,6 +172,16 @@ body.dark-theme #main-page {
 body.dark-theme #main-page #main-con {
   border: 1px solid #27272a;
 }
+body.dark-theme #main-page #main-con #create-window {
+  background-color: #3b3b42;
+  border: none;
+  border-bottom: 1px solid #27272a;
+}
+body.dark-theme #main-page #main-con #create-window input {
+  background-color: #27272a;
+  border: 1px solid #3b3b42;
+  color: #d4d4d8;
+}
 body.dark-theme #main-page #main-con #project-con {
   background-color: #34343a;
 }
@@ -196,15 +206,6 @@ body.dark-theme #main-page #main-con #task-con #task-title {
 body.dark-theme #main-page #main-con #task-con .task-card {
   background-color: #3b3b42;
   border-bottom: 1px solid #27272a;
-}
-
-#create-window {
-  background-color: #3b3b42;
-  border: 1px solid #27272a;
-}
-#create-window input {
-  background-color: #27272a;
-  border: 1px solid #3b3b42;
 }
 
 .display-none {
@@ -288,7 +289,7 @@ body button:hover {
   height: -moz-max-content;
   height: max-content;
   background-color: #fafafa;
-  border: 1px solid #e4e4e7;
+  border-bottom: 1px solid #e4e4e7;
   box-sizing: border-box;
 }
 #create-window form {
@@ -296,6 +297,12 @@ body button:hover {
   display: flex;
   align-items: center;
   padding: 2px;
+}
+#create-window form input {
+  background-color: #e4e4e7;
+  border: 1px solid #fafafa;
+  border-radius: 90px;
+  padding: 2%;
 }
 #create-window form #input-con {
   width: 100%;
@@ -305,12 +312,6 @@ body button:hover {
   grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
   align-items: center;
   justify-content: center;
-}
-#create-window form #input-con input {
-  background-color: #e4e4e7;
-  border: 1px solid #fafafa;
-  border-radius: 90px;
-  padding: 2%;
 }
 #create-window form #input-con #due-input {
   width: -webkit-max-content;

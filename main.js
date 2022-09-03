@@ -9,6 +9,11 @@ themeBtn.addEventListener("click", () => {
 	}
 });
 
+function getLocalStorage() {
+	let project_deserialized = JSON.parse(localStorage.getItem("projects"));
+	myProjects = project_deserialized;
+}
+
 const projectCon = document.getElementById("project-con");
 const startProjectBtn = document.getElementById("start-project");
 startProjectBtn.addEventListener("click", () => {
@@ -63,39 +68,18 @@ function createProjectWindow() {
 	createForm.appendChild(closeBtn);
 }
 
-let myProjects = [
-	{
-		title: "Test Project 1",
-		due: "2022-08-30",
-		tasks: [
-			{ description: "Test 1 Task 1" },
-			{ description: "Test 1 Task 2" },
-			{ description: "Test 1 Task 3" },
-		],
-	},
-	{
-		title: "Test Project 2",
-		due: "2022-09-15",
-		tasks: [
-			{ description: "Test 2 Task 1" },
-			{ description: "Test 2 Task 2" },
-			{ description: "Test 2 Task 3" },
-		],
-	},
-	{
-		title: "Test Project 3",
-		due: "2022-09-30",
-		tasks: [
-			{ description: "Test 3 Task 1" },
-			{ description: "Test 3 Task 2" },
-			{ description: "Test 3 Task 3" },
-		],
-	},
-];
+let myProjects = [];
 
 const projectFactory = (title, due, tasks) => {
 	return { title, due, tasks };
 };
+
+function setLocalStorage() {
+	localStorage.clear();
+
+	let projects_serialized = JSON.stringify(myProjects);
+	localStorage.setItem("projects", projects_serialized);
+}
 
 function addBtnListener() {
 	const addBtn = document.getElementById("add-button");
@@ -109,6 +93,7 @@ function addBtnListener() {
 		myProjects.push(project);
 		createProjectCard();
 		openProjectListener();
+		setLocalStorage();
 
 		document.getElementById("create-window").remove();
 	});
@@ -204,6 +189,7 @@ function deleteProjectListener() {
 			myProjects.splice(i, 1);
 
 			createProjectCard();
+			setLocalStorage();
 		});
 	}
 }
@@ -262,6 +248,7 @@ function addTaskBtnListener() {
 		const task = taskFactory(descriptionInput.value);
 		myProjects[taskCon.dataset.index].tasks.push(task);
 		createTaskCard();
+		setLocalStorage();
 
 		document.getElementById("create-window").remove();
 	});
@@ -342,6 +329,7 @@ function orderBtnListener() {
 				project.tasks.splice(index, 0, element);
 
 				createTaskCard();
+				setLocalStorage();
 			}
 		});
 	});
@@ -355,6 +343,7 @@ function orderBtnListener() {
 			project.tasks.splice(index, 0, element);
 
 			createTaskCard();
+			setLocalStorage();
 		});
 	}
 }
@@ -367,8 +356,10 @@ function deleteTaskListener() {
 			myProjects[taskConIndex].tasks.splice(i, 1);
 
 			createTaskCard();
+			setLocalStorage();
 		});
 	}
 }
 
+getLocalStorage();
 createProjectCard();

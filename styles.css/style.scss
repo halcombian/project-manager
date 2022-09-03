@@ -78,13 +78,19 @@ body {
 	width: 100%;
 	height: max-content;
 	background-color: $white3;
-	border: 1px solid $white1;
+	border-bottom: 1px solid $white1;
 	box-sizing: border-box;
 	form {
 		height: 100%;
 		display: flex;
 		align-items: center;
 		padding: 2px;
+		input {
+			background-color: $white1;
+			border: 1px solid $white3;
+			border-radius: 90px;
+			padding: 2%;
+		}
 		#input-con {
 			width: 100%;
 			height: 100%;
@@ -93,12 +99,6 @@ body {
 			grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
 			align-items: center;
 			justify-content: center;
-			input {
-				background-color: $white1;
-				border: 1px solid $white3;
-				border-radius: 90px;
-				padding: 2%;
-			}
 			#due-input {
 				width: max-content;
 			}
