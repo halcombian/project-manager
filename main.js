@@ -367,7 +367,11 @@ function deleteTaskListener() {
 //Parses myProjects stored in local storage under "projects"
 function getLocalStorage() {
 	let project_deserialized = JSON.parse(localStorage.getItem("projects"));
-	myProjects = project_deserialized;
+	if (project_deserialized === null) {
+		myProjects = [];
+	} else {
+		myProjects = project_deserialized;
+	}
 }
 
 getLocalStorage();
