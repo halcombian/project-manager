@@ -2,17 +2,13 @@ const themeBtn = document.getElementById("theme-btn");
 themeBtn.addEventListener("click", () => {
 	document.body.classList.toggle("dark-theme");
 
+	//Changes theme-button's marterial icon
 	if (document.body.classList.contains("dark-theme")) {
 		themeBtn.textContent = "light_mode";
 	} else {
 		themeBtn.textContent = "dark_mode";
 	}
 });
-
-function getLocalStorage() {
-	let project_deserialized = JSON.parse(localStorage.getItem("projects"));
-	myProjects = project_deserialized;
-}
 
 const projectCon = document.getElementById("project-con");
 const startProjectBtn = document.getElementById("start-project");
@@ -68,12 +64,15 @@ function createProjectWindow() {
 	createForm.appendChild(closeBtn);
 }
 
+//Array which stores all project objects
 let myProjects = [];
 
 const projectFactory = (title, due, tasks) => {
 	return { title, due, tasks };
 };
 
+//This stringifies and sets the whole myProjects array instead of individual objects to maintain order
+//myProjects is parsed in getLocalStorage()
 function setLocalStorage() {
 	localStorage.clear();
 
@@ -81,6 +80,7 @@ function setLocalStorage() {
 	localStorage.setItem("projects", projects_serialized);
 }
 
+//Creates a project object using projectFactory() and pushes it to myProjects
 function addBtnListener() {
 	const addBtn = document.getElementById("add-button");
 	const titleInput = document.getElementById("title-input");
@@ -93,13 +93,12 @@ function addBtnListener() {
 		myProjects.push(project);
 		createProjectCard();
 		openProjectListener();
-		setLocalStorage();
 
 		document.getElementById("create-window").remove();
 	});
 }
 
-//This is also called in openProjectListener() so the project cards render properly if needed
+//This is also called in openProjectListener() so the project cards render properly
 function closeProjectBtn() {
 	const createWindow = document.getElementById("create-window");
 	if (createWindow) {
@@ -117,6 +116,7 @@ function closeBtnListener() {
 	});
 }
 
+//This removes all project cards before calling a for loop to render an updated set of project cards
 function createProjectCard() {
 	const oldProjectCard = document.querySelectorAll(".project-card");
 	oldProjectCard.forEach((card) => {
@@ -128,7 +128,7 @@ function createProjectCard() {
 		projectCard.className = "project-card";
 		projectCon.insertBefore(projectCard, startProjectBtn);
 
-		const cardInfoCon = document.createElement("div");
+		const cardInfoCon = document.createElement("div"); //Container used for styling
 		cardInfoCon.className = "card-info-con";
 		projectCard.appendChild(cardInfoCon);
 
@@ -136,7 +136,7 @@ function createProjectCard() {
 		cardTitle.textContent = myProjects[i].title;
 		cardInfoCon.appendChild(cardTitle);
 
-		const dueTaskCon = document.createElement("div");
+		const dueTaskCon = document.createElement("div"); //Container used for styling
 		dueTaskCon.className = "due-task-con";
 		cardInfoCon.appendChild(dueTaskCon);
 
@@ -163,12 +163,16 @@ function createProjectCard() {
 	}
 	openProjectListener();
 	deleteProjectListener();
+	setLocalStorage();
 }
 
+//Hides the project window and displays a project's tasks in a new window
+//This first displays taskCon and sets index as data- attribute before disabling projectCon
+//It's important taskCon and projectCon are briefly displayed simultaneously to set data-index
 function openProjectListener() {
 	const openProjectBtn = document.querySelectorAll(".open-project-btn");
 	openProjectBtn.forEach((btn) => {
-		const index = btn.dataset.index;
+		const index = btn.dataset.index; //index is used to match button to project object in myProjects
 		btn.addEventListener("click", () => {
 			taskCon.classList.remove("display-none");
 			taskCon.setAttribute("data-index", index);
@@ -189,7 +193,6 @@ function deleteProjectListener() {
 			myProjects.splice(i, 1);
 
 			createProjectCard();
-			setLocalStorage();
 		});
 	}
 }
@@ -238,6 +241,8 @@ const taskFactory = (description) => {
 	return { description };
 };
 
+//Creates a task object using taskFactory() and pushes it to project's task value
+//Uses taskCon.dataset.index to target the correct project
 function addTaskBtnListener() {
 	const addTaskBtn = document.getElementById("add-task-btn");
 	const descriptionInput = document.getElementById("description-input");
@@ -248,7 +253,6 @@ function addTaskBtnListener() {
 		const task = taskFactory(descriptionInput.value);
 		myProjects[taskCon.dataset.index].tasks.push(task);
 		createTaskCard();
-		setLocalStorage();
 
 		document.getElementById("create-window").remove();
 	});
@@ -272,6 +276,7 @@ function closeTaskBtnListener() {
 	});
 }
 
+//This removes all task cards before calling a for loop to render an updated set of task cards
 function createTaskCard() {
 	const oldTaskCard = document.querySelectorAll(".task-card");
 	oldTaskCard.forEach((card) => {
@@ -288,7 +293,7 @@ function createTaskCard() {
 		cardDescription.textContent = myProjects[taskData].tasks[i].description;
 		taskCard.appendChild(cardDescription);
 
-		const orderBtnCon = document.createElement("div");
+		const orderBtnCon = document.createElement("div"); //Container used for styling
 		taskCard.appendChild(orderBtnCon);
 
 		const orderUpBtn = document.createElement("button");
@@ -310,6 +315,7 @@ function createTaskCard() {
 	}
 	orderBtnListener();
 	deleteTaskListener();
+	setLocalStorage();
 }
 
 function orderBtnListener() {
@@ -329,7 +335,6 @@ function orderBtnListener() {
 				project.tasks.splice(index, 0, element);
 
 				createTaskCard();
-				setLocalStorage();
 			}
 		});
 	});
@@ -343,7 +348,6 @@ function orderBtnListener() {
 			project.tasks.splice(index, 0, element);
 
 			createTaskCard();
-			setLocalStorage();
 		});
 	}
 }
@@ -356,9 +360,14 @@ function deleteTaskListener() {
 			myProjects[taskConIndex].tasks.splice(i, 1);
 
 			createTaskCard();
-			setLocalStorage();
 		});
 	}
+}
+
+//Parses myProjects stored in local storage under "projects"
+function getLocalStorage() {
+	let project_deserialized = JSON.parse(localStorage.getItem("projects"));
+	myProjects = project_deserialized;
 }
 
 getLocalStorage();
