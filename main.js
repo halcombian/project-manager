@@ -14,8 +14,7 @@ const projectCon = document.getElementById("project-con");
 
 const startProjectBtn = document.getElementById("start-project");
 startProjectBtn.addEventListener("click", () => {
-	startProjectBtn.style.display = "none"; //classList.toggle("display-none") doesn't work here
-
+	startProjectBtn.style.display = "none"; //classList.toggle("display-none") doesn't work with startProjectBtn
 	createProjectWindow();
 	addBtnListener();
 	closeBtnListener();
@@ -31,36 +30,46 @@ startTaskBtn.addEventListener("click", () => {
 	closeTaskBtnListener();
 });
 
-function elementCreator(ele, id, classList, text, parent) {
-	let element = document.createElement(ele);
+//Used to quickly give attributes to elements
+//Adding createElement and appendChild to the function proved more trouble than worth
+//Some elements use insertBefore, so appendChild causes problems with those
+function elementCreator(element, id, classList, text) {
 	element.id = id;
 	element.classList = classList;
 	element.textContent = text;
-	parent.appendChild(element);
 }
 
 function createProjectWindow() {
-	elementCreator("div", "create-window", "", "", projectCon);
-	const createWindow = document.getElementById("create-window");
+	const createWindow = document.createElement("div");
+	elementCreator(createWindow, "create-window", "", "");
+	projectCon.insertBefore(createWindow, startProjectBtn);
 
-	elementCreator("form", "create-form", "", "", createWindow);
-	const createForm = document.getElementById("create-form");
+	const createForm = document.createElement("form");
+	elementCreator(createForm, "create-form", "", "");
+	createWindow.appendChild(createForm);
 
-	elementCreator("div", "input-con", "", "", createForm);
-	const inputCon = document.getElementById("input-con");
+	const inputCon = document.createElement("div");
+	elementCreator(inputCon, "input-con", "", "");
+	createForm.appendChild(inputCon);
 
-	elementCreator("input", "title-input", "", "", inputCon);
-	const titleInput = document.getElementById("title-input");
+	const titleInput = document.createElement("input");
+	elementCreator(titleInput, "title-input", "", "");
 	titleInput.type = "text";
 	titleInput.placeholder = "Project Title";
+	inputCon.appendChild(titleInput);
 
-	elementCreator("input", "due-input", "", "", inputCon);
-	const dueInput = document.getElementById("due-input");
+	const dueInput = document.createElement("input");
+	elementCreator(dueInput, "due-input", "", "");
 	dueInput.type = "date";
+	inputCon.appendChild(dueInput);
 
-	elementCreator("button", "add-button", "btn", "Add", createForm);
+	const addBtn = document.createElement("button");
+	elementCreator(addBtn, "add-button", "btn", "Add");
+	createForm.appendChild(addBtn);
 
-	elementCreator("button", "close-btn", "btn", "Close", createForm);
+	const closeBtn = document.createElement("button");
+	elementCreator(closeBtn, "close-btn", "btn", "Close");
+	createForm.appendChild(closeBtn);
 
 	startProjectBtn.classList.toggle("display-none");
 }
@@ -104,7 +113,7 @@ function closeProjectBtn() {
 	const createWindow = document.getElementById("create-window");
 	if (createWindow) {
 		createWindow.remove();
-		startProjectBtn.style.visibility = "visible";
+		startProjectBtn.style.display = "inline-block";
 	}
 }
 
@@ -117,7 +126,7 @@ function closeBtnListener() {
 	});
 }
 
-//This removes all project cards before calling a for loop to render an updated set of project cards
+//Removes all project cards before calling a for loop to render an updated set of project cards
 function createProjectCard() {
 	const oldProjectCard = document.querySelectorAll(".project-card");
 	oldProjectCard.forEach((card) => {
@@ -129,37 +138,44 @@ function createProjectCard() {
 		projectCard.className = "project-card";
 		projectCon.insertBefore(projectCard, startProjectBtn);
 
-		const cardInfoCon = document.createElement("div"); //Container used for styling
-		cardInfoCon.className = "card-info-con";
+		const cardInfoCon = document.createElement("div");
+		elementCreator(cardInfoCon, "", "card-info-con", "");
 		projectCard.appendChild(cardInfoCon);
 
 		const cardTitle = document.createElement("h2");
-		cardTitle.textContent = myProjects[i].title;
+		elementCreator(cardTitle, "", "", myProjects[i].title);
 		cardInfoCon.appendChild(cardTitle);
 
-		const dueTaskCon = document.createElement("div"); //Container used for styling
-		dueTaskCon.className = "due-task-con";
+		const dueTaskCon = document.createElement("div");
+		elementCreator(dueTaskCon, "", "due-task-con", "");
 		cardInfoCon.appendChild(dueTaskCon);
 
 		const cardDue = document.createElement("span");
-		cardDue.innerHTML = "<b>Due: </b>" + myProjects[i].due;
-		dueTaskCon.appendChild(cardDue);
+		elementCreator(cardDue, "", "", "Due: " + myProjects[i].due);
+		cardInfoCon.appendChild(cardDue);
 
 		const cardTasks = document.createElement("span");
-		cardTasks.className = "card-tasks";
-		cardTasks.innerHTML = "<b>Tasks: </b>" + myProjects[i].tasks.length;
-		dueTaskCon.appendChild(cardTasks);
+		elementCreator(
+			cardTasks,
+			"",
+			"card-tasks",
+			"Tasks: " + myProjects[i].tasks.length
+		);
+		cardInfoCon.appendChild(cardTasks);
 
 		const openProjectBtn = document.createElement("button");
-		openProjectBtn.classList = "open-project-btn btn";
-		openProjectBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their project's index in myProjects array
-		openProjectBtn.textContent = "Open Project";
+		elementCreator(openProjectBtn, "", "open-project-btn btn", "Open Project");
+		openProjectBtn.setAttribute("data-index", i);
 		projectCard.appendChild(openProjectBtn);
 
 		const deleteProjectBtn = document.createElement("button");
-		deleteProjectBtn.classList = "material-icons delete-project-btn btn";
-		deleteProjectBtn.setAttribute("data-index", i); //Indexes are given to buttons that match their project's index in myProjects array
-		deleteProjectBtn.textContent = "close";
+		elementCreator(
+			deleteProjectBtn,
+			"",
+			"mtareial-icons delete-project-btn btn",
+			"close"
+		);
+		deleteProjectBtn.setAttribute("data-index", i);
 		projectCard.appendChild(deleteProjectBtn);
 	}
 	openProjectListener();
@@ -210,15 +226,16 @@ backBtn.addEventListener("click", () => {
 
 function createTaskWindow() {
 	const createWindow = document.createElement("div");
-	createWindow.id = "create-window";
+	elementCreator(createWindow, "create-window", "", "");
 	taskCon.insertBefore(createWindow, startTaskBtn);
 
 	const createForm = document.createElement("form");
+	elementCreator(createForm, "", "", "");
 	createWindow.appendChild(createForm);
 
 	const descriptionInput = document.createElement("input");
+	elementCreator(descriptionInput, "description-input", "", "");
 	descriptionInput.type = "text";
-	descriptionInput.id = "description-input";
 	descriptionInput.placeholder = "Task Description";
 	createForm.appendChild(descriptionInput);
 
@@ -226,15 +243,11 @@ function createTaskWindow() {
 	createForm.appendChild(createBtnCon);
 
 	const addTaskBtn = document.createElement("button");
-	addTaskBtn.id = "add-task-btn";
-	addTaskBtn.className = "btn";
-	addTaskBtn.textContent = "Add";
+	elementCreator(addTaskBtn, "add-task-btn", "btn", "Add");
 	createBtnCon.appendChild(addTaskBtn);
 
 	const closeBtn = document.createElement("button");
-	closeBtn.id = "close-task-btn";
-	closeBtn.className = "btn";
-	closeBtn.textContent = "Close";
+	elementCreator(closeBtn, "close-task-btn", "btn", "Close");
 	createBtnCon.appendChild(closeBtn);
 }
 
@@ -287,31 +300,47 @@ function createTaskCard() {
 	const taskData = taskCon.dataset.index;
 	for (let i = 0; i < myProjects[taskData].tasks.length; i++) {
 		const taskCard = document.createElement("div");
-		taskCard.className = "task-card";
+		elementCreator(taskCard, "", "task-card", "");
 		taskCon.insertBefore(taskCard, startTaskBtn);
 
 		const cardDescription = document.createElement("h2");
-		cardDescription.textContent = myProjects[taskData].tasks[i].description;
+		elementCreator(
+			cardDescription,
+			"",
+			"",
+			myProjects[taskData].tasks[i].description
+		);
 		taskCard.appendChild(cardDescription);
 
 		const orderBtnCon = document.createElement("div"); //Container used for styling
 		taskCard.appendChild(orderBtnCon);
 
 		const orderUpBtn = document.createElement("button");
-		orderUpBtn.textContent = "expand_less";
-		orderUpBtn.classList = "material-icons order-up-btn btn";
+		elementCreator(
+			orderUpBtn,
+			"",
+			"material-icons order-up-btn btn",
+			"expand_less"
+		);
 		orderUpBtn.setAttribute("data-index", i); //Indexes are given to order buttons that match their task's index in it's array
 		orderBtnCon.appendChild(orderUpBtn);
 
 		const orderDownBtn = document.createElement("button");
-		orderDownBtn.textContent = "expand_more";
-		orderDownBtn.classList = "material-icons order-down-btn btn";
-		orderDownBtn.setAttribute("data-index", i); //Indexes are given to order buttons that match their task's index in it's array
+		elementCreator(
+			orderDownBtn,
+			"",
+			"material-icons order-down-btn btn",
+			"expand_more"
+		);
 		orderBtnCon.appendChild(orderDownBtn);
 
 		const deleteTaskBtn = document.createElement("button");
-		deleteTaskBtn.classList = "material-icons delete-task-btn btn";
-		deleteTaskBtn.textContent = "close";
+		elementCreator(
+			deleteTaskBtn,
+			"",
+			"material-icons delete-task-btn btn",
+			"close"
+		);
 		taskCard.appendChild(deleteTaskBtn);
 	}
 	orderBtnListener();
@@ -328,7 +357,7 @@ function orderBtnListener() {
 	orderUpBtn.forEach((btn) => {
 		const btnData = btn.dataset.index;
 		btn.addEventListener("click", () => {
-			//The if statement prevents the up button from swapping places with the [1] element if in [0]
+			//The if statement prevents the up button from swapping places with the second element if in first
 			if (btnData == 0) {
 			} else {
 				const element = project.tasks.splice(btnData, 1)[0];
