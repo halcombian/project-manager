@@ -11,15 +11,18 @@ themeBtn.addEventListener("click", () => {
 });
 
 const projectCon = document.getElementById("project-con");
+
 const startProjectBtn = document.getElementById("start-project");
 startProjectBtn.addEventListener("click", () => {
-	startProjectBtn.style.visibility = "hidden";
+	startProjectBtn.style.display = "none"; //classList.toggle("display-none") doesn't work here
+
 	createProjectWindow();
 	addBtnListener();
 	closeBtnListener();
 });
 
 const taskCon = document.getElementById("task-con");
+
 const startTaskBtn = document.getElementById("start-task");
 startTaskBtn.addEventListener("click", () => {
 	startTaskBtn.style.visibility = "hidden";
@@ -28,40 +31,38 @@ startTaskBtn.addEventListener("click", () => {
 	closeTaskBtnListener();
 });
 
+function elementCreator(ele, id, classList, text, parent) {
+	let element = document.createElement(ele);
+	element.id = id;
+	element.classList = classList;
+	element.textContent = text;
+	parent.appendChild(element);
+}
+
 function createProjectWindow() {
-	const createWindow = document.createElement("div");
-	createWindow.id = "create-window";
-	projectCon.insertBefore(createWindow, startProjectBtn);
+	elementCreator("div", "create-window", "", "", projectCon);
+	const createWindow = document.getElementById("create-window");
 
-	const createForm = document.createElement("form");
-	createWindow.appendChild(createForm);
+	elementCreator("form", "create-form", "", "", createWindow);
+	const createForm = document.getElementById("create-form");
 
-	const inputCon = document.createElement("div");
-	inputCon.id = "input-con";
-	createForm.appendChild(inputCon);
+	elementCreator("div", "input-con", "", "", createForm);
+	const inputCon = document.getElementById("input-con");
 
-	const titleInput = document.createElement("input");
+	elementCreator("input", "title-input", "", "", inputCon);
+	const titleInput = document.getElementById("title-input");
 	titleInput.type = "text";
-	titleInput.id = "title-input";
 	titleInput.placeholder = "Project Title";
-	inputCon.appendChild(titleInput);
 
-	const dueInput = document.createElement("input");
+	elementCreator("input", "due-input", "", "", inputCon);
+	const dueInput = document.getElementById("due-input");
 	dueInput.type = "date";
-	dueInput.id = "due-input";
-	inputCon.appendChild(dueInput);
 
-	const addBtn = document.createElement("button");
-	addBtn.id = "add-button";
-	addBtn.className = "btn";
-	addBtn.textContent = "Add";
-	createForm.appendChild(addBtn);
+	elementCreator("button", "add-button", "btn", "Add", createForm);
 
-	const closeBtn = document.createElement("button");
-	closeBtn.id = "close-btn";
-	closeBtn.className = "btn";
-	closeBtn.textContent = "Close";
-	createForm.appendChild(closeBtn);
+	elementCreator("button", "close-btn", "btn", "Close", createForm);
+
+	startProjectBtn.classList.toggle("display-none");
 }
 
 //Array which stores all project objects
@@ -87,7 +88,7 @@ function addBtnListener() {
 	const dueInput = document.getElementById("due-input");
 	addBtn.addEventListener("click", (event) => {
 		event.preventDefault();
-		startProjectBtn.style.visibility = "visible";
+		startProjectBtn.style.display = "inline-block";
 
 		const project = projectFactory(titleInput.value, dueInput.value, []);
 		myProjects.push(project);
