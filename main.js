@@ -90,21 +90,82 @@ function setLocalStorage() {
 	localStorage.setItem("projects", projects_serialized);
 }
 
-//Creates a project object using projectFactory() and pushes it to myProjects
-function addBtnListener() {
-	const addBtn = document.getElementById("add-button");
+//Checks which container element is currently displayed and returns matching text for validateInput()
+function checkContainer() {
+	if (projectCon.classList != "display-none") {
+		return "project title";
+	} else {
+		return "task description";
+	}
+}
+
+//Creates window that makes sure user wants to create an object with blank title or description
+function validateInput() {
+	const validationCon = document.createElement("div");
+	elementCreator(
+		validationCon,
+		"validation-con",
+		"",
+		`Do you want to leave ${checkContainer()} blank?`
+	);
+	document.getElementById("main-page").appendChild(validationCon);
+
+	const yesBtn = document.createElement("button");
+	elementCreator(yesBtn, "yes-btn", "btn", "Yes");
+	validationCon.appendChild(yesBtn);
+
+	const noBtn = document.createElement("button");
+	elementCreator(noBtn, "no-btn", "btn", "No");
+	validationCon.appendChild(noBtn);
+}
+
+function yesBtnListener() {
+	const validationCon = document.getElementById("validation-con");
+	const yesBtn = document.getElementById("yes-btn");
+	yesBtn.addEventListener("click", () => {
+		addProject();
+		validationCon.remove();
+	});
+}
+
+function noBtnListener() {
+	const validationCon = document.getElementById("validation-con");
+	const noBtn = document.getElementById("no-btn");
+	const titleInput = document.getElementById("title-input");
+	noBtn.addEventListener("click", () => {
+		validationCon.remove();
+		titleInput.focus();
+	});
+}
+
+//Checks if title-input is left blank
+//Also checks if yes-btn isn't on the dom so that, if it is, the project is still created
+//Else creates a project object
+function addProject() {
 	const titleInput = document.getElementById("title-input");
 	const dueInput = document.getElementById("due-input");
-	addBtn.addEventListener("click", (event) => {
-		event.preventDefault();
-		startProjectBtn.style.display = "inline-block";
-
+	if ((titleInput.value == "") & !document.getElementById("yes-btn")) {
+		checkContainer();
+		validateInput();
+		yesBtnListener();
+		noBtnListener();
+	} else {
 		const project = projectFactory(titleInput.value, dueInput.value, []);
 		myProjects.push(project);
 		createProjectCard();
 		openProjectListener();
 
+		startProjectBtn.style.display = "inline-block";
 		document.getElementById("create-window").remove();
+	}
+}
+
+//Creates a project object using projectFactory() and pushes it to myProjects
+function addBtnListener() {
+	const addBtn = document.getElementById("add-button");
+	addBtn.addEventListener("click", (event) => {
+		event.preventDefault();
+		addProject();
 	});
 }
 
@@ -172,7 +233,7 @@ function createProjectCard() {
 		elementCreator(
 			deleteProjectBtn,
 			"",
-			"mtareial-icons delete-project-btn btn",
+			"material-icons delete-project-btn btn",
 			"close"
 		);
 		deleteProjectBtn.setAttribute("data-index", i);

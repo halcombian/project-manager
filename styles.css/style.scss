@@ -61,7 +61,7 @@ body {
 #main-page {
 	flex: 1;
 	background-color: $white4;
-	padding-top: 1em;
+	padding-top: 1%;
 	display: flex;
 	justify-content: center;
 	#main-con {
@@ -71,6 +71,17 @@ body {
 		border: 1px solid $white1;
 		border-bottom: none;
 		box-sizing: border-box;
+	}
+	#validation-con {
+		background-color: $white1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
+		width: 200px;
+		height: 200px;
 	}
 }
 
