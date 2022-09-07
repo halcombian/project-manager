@@ -106,24 +106,41 @@ function validateInput() {
 		validationCon,
 		"validation-con",
 		"",
-		`Do you want to leave ${checkContainer()} blank?`
+		//`Do you want to leave ${checkContainer()} blank?`
+		""
 	);
 	document.getElementById("main-page").appendChild(validationCon);
 
+	const validationMessage = document.createElement("span");
+	elementCreator(
+		validationMessage,
+		"validation-message",
+		"",
+		`Do you want to leave ${checkContainer()} blank?`
+	);
+	validationCon.appendChild(validationMessage);
+
+	const btnCon = document.createElement("div");
+	validationCon.appendChild(btnCon);
+
 	const yesBtn = document.createElement("button");
 	elementCreator(yesBtn, "yes-btn", "btn", "Yes");
-	validationCon.appendChild(yesBtn);
+	btnCon.appendChild(yesBtn);
 
 	const noBtn = document.createElement("button");
 	elementCreator(noBtn, "no-btn", "btn", "No");
-	validationCon.appendChild(noBtn);
+	btnCon.appendChild(noBtn);
 }
 
 function yesBtnListener() {
 	const validationCon = document.getElementById("validation-con");
 	const yesBtn = document.getElementById("yes-btn");
 	yesBtn.addEventListener("click", () => {
-		addProject();
+		if (projectCon.classList != "display-none") {
+			addProject();
+		} else {
+			addTask();
+		}
 		validationCon.remove();
 	});
 }
@@ -132,9 +149,14 @@ function noBtnListener() {
 	const validationCon = document.getElementById("validation-con");
 	const noBtn = document.getElementById("no-btn");
 	const titleInput = document.getElementById("title-input");
+	const descriptionInput = document.getElementById("description-input");
 	noBtn.addEventListener("click", () => {
 		validationCon.remove();
-		titleInput.focus();
+		if (projectCon.classList != "display-none") {
+			titleInput.focus();
+		} else {
+			descriptionInput.focus();
+		}
 	});
 }
 
@@ -316,20 +338,30 @@ const taskFactory = (description) => {
 	return { description };
 };
 
-//Creates a task object using taskFactory() and pushes it to project's task value
-//Uses taskCon.dataset.index to target the correct project
-function addTaskBtnListener() {
-	const addTaskBtn = document.getElementById("add-task-btn");
+function addTask() {
 	const descriptionInput = document.getElementById("description-input");
-	addTaskBtn.addEventListener("click", (event) => {
-		event.preventDefault();
-		startTaskBtn.style.visibility = "visible";
-
+	if ((descriptionInput.value == "") & !document.getElementById("yes-btn")) {
+		checkContainer();
+		validateInput();
+		yesBtnListener();
+		noBtnListener();
+	} else {
 		const task = taskFactory(descriptionInput.value);
 		myProjects[taskCon.dataset.index].tasks.push(task);
 		createTaskCard();
 
+		startTaskBtn.style.visibility = "visible";
 		document.getElementById("create-window").remove();
+	}
+}
+
+//Creates a task object using taskFactory() and pushes it to project's task value ------------------------------------------------->
+//Uses taskCon.dataset.index to target the correct project
+function addTaskBtnListener() {
+	const addTaskBtn = document.getElementById("add-task-btn");
+	addTaskBtn.addEventListener("click", (event) => {
+		event.preventDefault();
+		addTask();
 	});
 }
 

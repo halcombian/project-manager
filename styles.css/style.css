@@ -207,6 +207,36 @@ body.dark-theme #main-page #main-con #task-con .task-card {
   background-color: #3b3b42;
   border-bottom: 1px solid #27272a;
 }
+body.dark-theme #main-page #validation-con {
+  background-color: #27272a;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 2rem 1rem 2rem 1rem;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+body.dark-theme #main-page #validation-con span {
+  height: 100%;
+}
+body.dark-theme #main-page #validation-con div {
+  width: 100%;
+}
+body.dark-theme #main-page #validation-con div button {
+  background-color: #3b3b42;
+  border: 1px solid #27272a;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
 
 .display-none {
   display: none;
@@ -284,14 +314,33 @@ body button:hover {
 }
 #main-page #validation-con {
   background-color: #e4e4e7;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.25);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
+  padding: 2rem 1rem 2rem 1rem;
   width: 200px;
   height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+#main-page #validation-con span {
+  height: 100%;
+}
+#main-page #validation-con div {
+  width: 100%;
+}
+#main-page #validation-con div button {
+  background-color: #fafafa;
+  border: 1px solid #e4e4e7;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
 }
 
 #create-window {
