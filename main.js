@@ -86,29 +86,25 @@ const projectFactory = (title, due, tasks) => {
 function setLocalStorage() {
 	localStorage.clear();
 
-	let projects_serialized = JSON.stringify(myProjects);
+	const projects_serialized = JSON.stringify(myProjects);
 	localStorage.setItem("projects", projects_serialized);
 }
 
 //Checks which container element is currently displayed and returns matching text for validateInput()
 function checkContainer() {
 	if (projectCon.classList != "display-none") {
-		return "project title";
+		return { blank: "leave project title blank", delete: "delete project" };
 	} else {
-		return "task description";
+		return { blank: "leave task description blank", delete: "delete task" };
 	}
 }
 
-//Creates window that makes sure user wants to create an object with blank title or description
-function validateInput() {
+//Creates window that validates user inputs
+//Takes strings from checkContainer and displays the appropriate text-
+//depending on if "yes" or "no" button is clicked and which container is displayed
+function validateInput(checkContainerText) {
 	const validationCon = document.createElement("div");
-	elementCreator(
-		validationCon,
-		"validation-con",
-		"",
-		//`Do you want to leave ${checkContainer()} blank?`
-		""
-	);
+	elementCreator(validationCon, "validation-con", "", "");
 	document.getElementById("main-page").appendChild(validationCon);
 
 	const validationMessage = document.createElement("span");
@@ -116,7 +112,7 @@ function validateInput() {
 		validationMessage,
 		"validation-message",
 		"",
-		`Do you want to leave ${checkContainer()} blank?`
+		`Do you want to ${checkContainerText}?`
 	);
 	validationCon.appendChild(validationMessage);
 
@@ -132,19 +128,32 @@ function validateInput() {
 	btnCon.appendChild(noBtn);
 }
 
+//Confirms user input
+//Allows user to create blank project or task depending on which container is displayed
+//Also allows user to delete projects or tasks in the same manner
 function yesBtnListener() {
 	const validationCon = document.getElementById("validation-con");
 	const yesBtn = document.getElementById("yes-btn");
 	yesBtn.addEventListener("click", () => {
 		if (projectCon.classList != "display-none") {
-			addProject();
+			if (document.getElementById("create-window")) {
+				addProject();
+			} else {
+				deleteProject();
+			}
 		} else {
-			addTask();
+			if (document.getElementById("create-window")) {
+				addTask();
+			} else {
+				deleteTask();
+			}
 		}
 		validationCon.remove();
 	});
 }
 
+//Similar to "yes" btn, this removes validation window and, if title or description input is rendered,-
+//focuses input for ease of use
 function noBtnListener() {
 	const validationCon = document.getElementById("validation-con");
 	const noBtn = document.getElementById("no-btn");
@@ -152,23 +161,25 @@ function noBtnListener() {
 	const descriptionInput = document.getElementById("description-input");
 	noBtn.addEventListener("click", () => {
 		validationCon.remove();
-		if (projectCon.classList != "display-none") {
-			titleInput.focus();
-		} else {
-			descriptionInput.focus();
+		if (document.getElementById("create-window")) {
+			if (projectCon.classList != "display-none") {
+				titleInput.focus();
+			} else {
+				descriptionInput.focus();
+			}
 		}
 	});
 }
 
 //Checks if title-input is left blank
-//Also checks if yes-btn isn't on the dom so that, if it is, the project is still created
+//Also checks if yes-btn isn't on the dom so that, if it is, validation window is created
 //Else creates a project object
 function addProject() {
 	const titleInput = document.getElementById("title-input");
 	const dueInput = document.getElementById("due-input");
 	if ((titleInput.value == "") & !document.getElementById("yes-btn")) {
 		checkContainer();
-		validateInput();
+		validateInput(checkContainer().blank);
 		yesBtnListener();
 		noBtnListener();
 	} else {
@@ -286,17 +297,34 @@ function openProjectListener() {
 	});
 }
 
+//Creates validation window to confirm user wants to delete project
+//Passes deleteProjectBtn's data-index to validationCon so "yes" btn knows which project to target
 function deleteProjectListener() {
 	const deleteProjectBtn = document.querySelectorAll(".delete-project-btn");
-	for (let i = 0; i < deleteProjectBtn.length; i++) {
-		deleteProjectBtn[i].addEventListener("click", () => {
-			myProjects.splice(i, 1);
+	deleteProjectBtn.forEach((btn) => {
+		const index = btn.dataset.index;
+		btn.addEventListener("click", () => {
+			checkContainer();
+			validateInput(checkContainer().delete);
+			yesBtnListener();
+			noBtnListener();
 
-			createProjectCard();
+			const validationCon = document.getElementById("validation-con");
+			validationCon.setAttribute("data-index", index);
 		});
-	}
+	});
 }
 
+//Is called by the "yes" btn to delete the targeted project
+function deleteProject() {
+	const validationCon = document.getElementById("validation-con");
+	const valIndex = validationCon.dataset.index;
+	myProjects.splice(valIndex, 1);
+
+	createProjectCard();
+}
+
+//Returns user to projectCon window
 const backBtn = document.getElementById("back-btn");
 backBtn.addEventListener("click", () => {
 	closeTaskBtn();
@@ -338,11 +366,14 @@ const taskFactory = (description) => {
 	return { description };
 };
 
+//Checks if description-input is left blank
+//Also checks if yes-btn isn't on the dom so that, if it is, validation window is created
+//Else creates a task object
 function addTask() {
 	const descriptionInput = document.getElementById("description-input");
 	if ((descriptionInput.value == "") & !document.getElementById("yes-btn")) {
 		checkContainer();
-		validateInput();
+		validateInput(checkContainer().blank);
 		yesBtnListener();
 		noBtnListener();
 	} else {
@@ -355,7 +386,7 @@ function addTask() {
 	}
 }
 
-//Creates a task object using taskFactory() and pushes it to project's task value ------------------------------------------------->
+//Creates a task object using taskFactory() and pushes it to project's task value
 //Uses taskCon.dataset.index to target the correct project
 function addTaskBtnListener() {
 	const addTaskBtn = document.getElementById("add-task-btn");
@@ -434,6 +465,7 @@ function createTaskCard() {
 			"material-icons delete-task-btn btn",
 			"close"
 		);
+		deleteTaskBtn.setAttribute("data-index", i);
 		taskCard.appendChild(deleteTaskBtn);
 	}
 	orderBtnListener();
@@ -475,16 +507,32 @@ function orderBtnListener() {
 	}
 }
 
+//Creates validation window to confirm user wants to delete task
+//Passes deleteTaskBtn's data-index to validationCon so "yes" btn knows which task to target
 function deleteTaskListener() {
 	const deleteTaskBtn = document.querySelectorAll(".delete-task-btn");
-	const taskConIndex = taskCon.dataset.index;
-	for (let i = 0; i < deleteTaskBtn.length; i++) {
-		deleteTaskBtn[i].addEventListener("click", () => {
-			myProjects[taskConIndex].tasks.splice(i, 1);
+	deleteTaskBtn.forEach((btn) => {
+		const index = btn.dataset.index;
+		btn.addEventListener("click", () => {
+			checkContainer();
+			validateInput(checkContainer().delete);
+			yesBtnListener();
+			noBtnListener();
 
-			createTaskCard();
+			const validationCon = document.getElementById("validation-con");
+			validationCon.setAttribute("data-index", index);
 		});
-	}
+	});
+}
+
+//Deletes targeted task and creates new list of cards
+function deleteTask() {
+	const validationCon = document.getElementById("validation-con");
+	const taskConIndex = taskCon.dataset.index;
+	const valIndex = validationCon.dataset.index;
+	myProjects[taskConIndex].tasks.splice(valIndex, 1);
+
+	createTaskCard();
 }
 
 //Parses myProjects stored in local storage under "projects"
