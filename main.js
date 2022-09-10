@@ -148,6 +148,10 @@ function yesBtnListener() {
 				deleteTask();
 			}
 		}
+		const otherBtns = document.querySelectorAll(".btn");
+		otherBtns.forEach((btn) => {
+			btn.disabled = false;
+		});
 		validationCon.remove();
 	});
 }
@@ -168,7 +172,30 @@ function noBtnListener() {
 				descriptionInput.focus();
 			}
 		}
+		const otherBtns = document.querySelectorAll(".btn");
+		otherBtns.forEach((btn) => {
+			btn.disabled = false;
+		});
 	});
+}
+
+function disableBtns() {
+	const otherBtns = document.querySelectorAll(".btn");
+	const yesBtn = document.getElementById("yes-btn");
+	const noBtn = document.getElementById("no-btn");
+	otherBtns.forEach((btn) => {
+		btn.disabled = true;
+	});
+	yesBtn.disabled = false;
+	noBtn.disabled = false;
+}
+
+function createValidationWindow(checkContainerText) {
+	checkContainer();
+	validateInput(checkContainerText);
+	yesBtnListener();
+	noBtnListener();
+	disableBtns();
 }
 
 //Checks if title-input is left blank
@@ -178,10 +205,7 @@ function addProject() {
 	const titleInput = document.getElementById("title-input");
 	const dueInput = document.getElementById("due-input");
 	if ((titleInput.value == "") & !document.getElementById("yes-btn")) {
-		checkContainer();
-		validateInput(checkContainer().blank);
-		yesBtnListener();
-		noBtnListener();
+		createValidationWindow(checkContainer().blank);
 	} else {
 		const project = projectFactory(titleInput.value, dueInput.value, []);
 		myProjects.push(project);
@@ -304,10 +328,7 @@ function deleteProjectListener() {
 	deleteProjectBtn.forEach((btn) => {
 		const index = btn.dataset.index;
 		btn.addEventListener("click", () => {
-			checkContainer();
-			validateInput(checkContainer().delete);
-			yesBtnListener();
-			noBtnListener();
+			createValidationWindow(checkContainer().delete);
 
 			const validationCon = document.getElementById("validation-con");
 			validationCon.setAttribute("data-index", index);
@@ -372,10 +393,7 @@ const taskFactory = (description) => {
 function addTask() {
 	const descriptionInput = document.getElementById("description-input");
 	if ((descriptionInput.value == "") & !document.getElementById("yes-btn")) {
-		checkContainer();
-		validateInput(checkContainer().blank);
-		yesBtnListener();
-		noBtnListener();
+		createValidationWindow(checkContainer().blank);
 	} else {
 		const task = taskFactory(descriptionInput.value);
 		myProjects[taskCon.dataset.index].tasks.push(task);
@@ -514,10 +532,7 @@ function deleteTaskListener() {
 	deleteTaskBtn.forEach((btn) => {
 		const index = btn.dataset.index;
 		btn.addEventListener("click", () => {
-			checkContainer();
-			validateInput(checkContainer().delete);
-			yesBtnListener();
-			noBtnListener();
+			createValidationWindow(checkContainer().delete);
 
 			const validationCon = document.getElementById("validation-con");
 			validationCon.setAttribute("data-index", index);
